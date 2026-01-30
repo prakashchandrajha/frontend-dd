@@ -8,5 +8,5 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.css'
 })
 export class App {
-  protected title = 'demo-fr';
+  protected title = 'npa-rec-frontend-demo-2';
 }
