@@ -1,16 +1,21 @@
 import { useState } from 'react';
 import { AuthService } from '../services/auth-service';
 import styles from './LoginPage.module.css';
+import { LoginRequest } from '../types/auth';
 
-export function LoginPage({ onLoginSuccess }) {
-  const [credentials, setCredentials] = useState({
+interface LoginPageProps {
+  onLoginSuccess: () => void;
+}
+
+export function LoginPage({ onLoginSuccess }: LoginPageProps) {
+  const [credentials, setCredentials] = useState<LoginRequest>({
     username: '',
     password: ''
   });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setCredentials(prev => ({
       ...prev,
@@ -20,7 +25,7 @@ export function LoginPage({ onLoginSuccess }) {
     if (error) setError(null);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);

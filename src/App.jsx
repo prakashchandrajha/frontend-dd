@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
-import { LoginPage } from './pages/LoginPage.jsx'
+import { LoginPage } from './pages/LoginPage'
+import { DashboardPage } from './pages/DashboardPage.jsx'
 import { AuthService } from './services/auth-service'
 
 function App() {
@@ -58,7 +59,12 @@ function App() {
     );
   }
 
-  // Show main app
+  // Show dashboard for logged in users
+  if (isLoggedIn) {
+    return <DashboardPage onLogout={handleLogout} />;
+  }
+
+  // Show main app (not logged in)
   return (
     <>
       <div>
@@ -72,42 +78,20 @@ function App() {
       <h1>Vite + React</h1>
       
       <div>
-        {isLoggedIn ? (
-          <div>
-            <p>Welcome! You are logged in.</p>
-            <button 
-              onClick={handleLogout}
-              style={{
-                padding: '8px 16px',
-                backgroundColor: '#dc3545',
-                color: 'white',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: 'pointer',
-                marginRight: '10px'
-              }}
-            >
-              Logout
-            </button>
-          </div>
-        ) : (
-          <div>
-            <p>You are not logged in.</p>
-            <button 
-              onClick={showLoginPage}
-              style={{
-                padding: '8px 16px',
-                backgroundColor: '#007bff',
-                color: 'white',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: 'pointer'
-              }}
-            >
-              Go to Login Page
-            </button>
-          </div>
-        )}
+        <p>You are not logged in.</p>
+        <button 
+          onClick={showLoginPage}
+          style={{
+            padding: '8px 16px',
+            backgroundColor: '#007bff',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer'
+          }}
+        >
+          Go to Login Page
+        </button>
       </div>
       
       <div className="card">
