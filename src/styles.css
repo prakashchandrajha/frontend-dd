@@ -1,6 +1,86 @@
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
 
+/* Dark Theme (Default) */
+:root {
+  --bg-primary: #0f172a;
+  --bg-secondary: rgba(30, 41, 59, 0.95);
+  --bg-card: rgba(30, 41, 59, 0.7);
+  --bg-hover: rgba(255, 255, 255, 0.05);
+  --bg-input: rgba(30, 41, 59, 0.5);
+  
+  --text-primary: #ffffff;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-inverse: #0f172a;
+  
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-color-strong: rgba(255, 255, 255, 0.15);
+  
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+  
+  --accent-primary: #6366f1;
+  --accent-secondary: #8b5cf6;
+  --accent-success: #10b981;
+  --accent-warning: #f59e0b;
+  --accent-danger: #f43f5e;
+  
+  --glass-bg: rgba(15, 23, 42, 0.95);
+  --glass-border: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="light"] {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-card: rgba(255, 255, 255, 0.9);
+  --bg-hover: rgba(0, 0, 0, 0.03);
+  --bg-input: #f1f5f9;
+  
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --text-inverse: #ffffff;
+  
+  --border-color: rgba(0, 0, 0, 0.08);
+  --border-color-strong: rgba(0, 0, 0, 0.15);
+  
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 40px -10px rgba(0, 0, 0, 0.15);
+  --shadow-xl: 0 20px 40px -15px rgba(0, 0, 0, 0.2);
+  
+  --glass-bg: rgba(255, 255, 255, 0.95);
+  --glass-border: rgba(0, 0, 0, 0.08);
+}
+
+/* Smooth theme transition */
+* {
+  transition: background-color 0.3s ease, 
+              border-color 0.3s ease, 
+              color 0.3s ease,
+              box-shadow 0.3s ease;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Utility Classes */
+.text-primary { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-muted { color: var(--text-muted); }
+
+.bg-card { background-color: var(--bg-card); }
+.bg-primary { background-color: var(--bg-primary); }
+.bg-secondary { background-color: var(--bg-secondary); }
+
+.border-default { border-color: var(--border-color); }
+
 @theme {
   --animate-spin-slow: spin 20s linear infinite;
   --animate-ping: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;

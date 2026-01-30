@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-layout',
@@ -9,7 +10,9 @@ import { RouterModule } from '@angular/router';
   styleUrl: './layout.scss',
 })
 export class Layout {
- isCollapsed = false;
+  themeService = inject(ThemeService);
+  
+  isCollapsed = false;
   isMobileOpen = false;
   currentDate = new Date();
 
@@ -38,5 +41,9 @@ export class Layout {
   closeMobile() {
     this.isMobileOpen = false;
     document.body.style.overflow = '';
+  }
+  
+  toggleTheme() {
+    this.themeService.toggleTheme();
   }
 }
