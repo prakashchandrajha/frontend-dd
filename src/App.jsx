@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
 import { LoginPage } from './pages/LoginPage'
-import { DashboardPage } from './pages/DashboardPage.jsx'
+import { DashboardPage } from './pages/DashboardPage'
 import { AuthService } from './services/auth-service'
 
 function App() {

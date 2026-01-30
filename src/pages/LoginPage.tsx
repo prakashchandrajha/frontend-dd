@@ -17,24 +17,44 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setCredentials(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    console.log('Input changed:', name, '=', value);
+    setCredentials(prev => {
+      const newCredentials = {
+        ...prev,
+        [name]: value
+      };
+      console.log('Updated credentials:', newCredentials);
+      return newCredentials;
+    });
     // Clear error when user starts typing
     if (error) setError(null);
   };
 
-  const handleSubmit = async (e: React.SyntheticEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log('=== FORM SUBMIT EVENT TRIGGERED ===');
+    console.log('Form submitted with credentials:', credentials);
+    console.log('Username length:', credentials.username.length);
+    console.log('Password length:', credentials.password.length);
+    
+    if (!credentials.username || !credentials.password) {
+      console.error('Missing credentials');
+      setError('Please enter both username and password');
+      return;
+    }
+    
     setLoading(true);
     setError(null);
 
     try {
+      console.log('Calling AuthService.login...');
       const response = await AuthService.login(credentials);
+      console.log('Login successful, response:', response);
       AuthService.setToken(response.token);
+      console.log('Token stored, calling onLoginSuccess');
       onLoginSuccess();
     } catch (err) {
+      console.error('Login failed:', err);
       setError(err instanceof Error ? err.message : 'Login failed');
     } finally {
       setLoading(false);
