@@ -79,10 +79,10 @@
         }
 
         <form (ngSubmit)="onSubmit()" class="space-y-6">
-          <!-- Email Input -->
+          <!-- Username Input -->
           <div class="group">
             <label class="block text-sm font-medium text-slate-300 mb-2 transition-colors group-focus-within:text-indigo-400">
-              Email Address
+              Username
             </label>
             <div class="relative">
               <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -90,13 +90,13 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"></path>
                 </svg>
               </div>
-              <input 
-                type="email" 
-                [(ngModel)]="email" 
-                name="email"
+              <input
+                type="text"
+                [(ngModel)]="username"
+                name="username"
                 required
                 class="block w-full pl-12 pr-4 py-4 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all duration-300 hover:bg-slate-800/70"
-                placeholder="name@company.com"
+                placeholder="username"
               >
             </div>
           </div>

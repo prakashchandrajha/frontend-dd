@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 import { ThemeService } from '../../services/theme.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-layout',
@@ -11,7 +13,9 @@ import { ThemeService } from '../../services/theme.service';
 })
 export class Layout {
   themeService = inject(ThemeService);
-  
+  authService = inject(AuthService);
+  router = inject(Router);
+
   isCollapsed = false;
   isMobileOpen = false;
   currentDate = new Date();
@@ -42,8 +46,13 @@ export class Layout {
     this.isMobileOpen = false;
     document.body.style.overflow = '';
   }
-  
+
   toggleTheme() {
     this.themeService.toggleTheme();
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/']);
   }
 }
