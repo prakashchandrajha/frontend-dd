@@ -40,10 +40,9 @@
       <div class="nav-section">
         <div class="nav-section-title" *ngIf="!isCollapsed">Menu</div>
         <div class="nav-items">
-          <a 
+          <a
             *ngFor="let item of menuItems"
-            [routerLink]="item.route"
-            routerLinkActive="active"
+            (click)="navigateTo(item.route, item.action)"
             class="nav-link"
             [class.collapsed]="isCollapsed"
             [attr.title]="isCollapsed ? item.label : null"
@@ -237,5 +236,8 @@
     <main class="page-content">
       <ng-content></ng-content>
     </main>
+
+    <!-- Create User Modal -->
+    <app-create-user></app-create-user>
   </div>
 </div>

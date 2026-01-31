@@ -55,30 +55,6 @@ export class Dashboard {
       time: '2 min ago',
       avatar: 'SC',
       color: 'bg-emerald-500'
-    },
-    {
-      user: 'Mike Ross',
-      action: 'commented on',
-      target: 'API Integration',
-      time: '15 min ago',
-      avatar: 'MR',
-      color: 'bg-blue-500'
-    },
-    {
-      user: 'Emma Wilson',
-      action: 'uploaded file to',
-      target: 'Design Assets',
-      time: '1 hour ago',
-      avatar: 'EW',
-      color: 'bg-purple-500'
-    },
-    {
-      user: 'James Lee',
-      action: 'created project',
-      target: 'Mobile App v2',
-      time: '3 hours ago',
-      avatar: 'JL',
-      color: 'bg-orange-500'
     }
   ];
 
@@ -92,33 +68,8 @@ export class Dashboard {
       dueDate: 'Dec 24',
       color: 'indigo'
     },
-    {
-      name: 'Mobile Banking App',
-      description: 'Secure financial management',
-      status: 'Review',
-      progress: 90,
-      members: 3,
-      dueDate: 'Dec 20',
-      color: 'emerald'
-    },
-    {
-      name: 'AI Analytics Dashboard',
-      description: 'Data visualization platform',
-      status: 'In Progress',
-      progress: 45,
-      members: 5,
-      dueDate: 'Jan 15',
-      color: 'purple'
-    },
-    {
-      name: 'Cloud Migration',
-      description: 'Infrastructure upgrade',
-      status: 'Planning',
-      progress: 20,
-      members: 2,
-      dueDate: 'Feb 01',
-      color: 'amber'
-    }
+  
+    
   ];
 
   getStatusColor(status: string): string {
