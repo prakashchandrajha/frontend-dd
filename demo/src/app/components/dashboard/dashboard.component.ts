@@ -3,15 +3,19 @@ import { FormsModule } from '@angular/forms';
 import { AuthServiceService } from '../../services/auth-service.service';
 import { RouterLink } from '@angular/router';
 import { ProfileComponent } from '../profile/profile.component';
+import { CreateNpaComponent } from '../create-npa/create-npa.component';
+import { NpaDetailComponent } from '../npa-detail/npa-detail.component';
+import { NpaListComponent } from '../npa-list/npa-list.component';
+import { QueueComponent } from '../queue/queue.component';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [FormsModule, RouterLink, ProfileComponent],
+  imports: [FormsModule, RouterLink, ProfileComponent, CreateNpaComponent, NpaDetailComponent, NpaListComponent, QueueComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
-  currentView: 'home' | 'profile' | 'createUser' = 'home';
+  currentView: 'home' | 'profile' | 'createUser' | 'createNpa' | 'npaDetail' | 'npaList' | 'queue' = 'home';
   showUserForm = false;
   
   user = {
@@ -39,6 +43,44 @@ export class DashboardComponent {
     // Check user role on component initialization
     console.log('User role:', this.authService.getUserRole());
     console.log('Is admin:', this.authService.isAdmin());
+  }
+
+  getCurrentUsername(): string {
+    const token = this.authService.getToken();
+    if (!token) return 'Unknown User';
+    
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      
+      const decoded = JSON.parse(jsonPayload);
+      return decoded.sub || decoded.username || 'Unknown User';
+    } catch (error) {
+      console.error('Error decoding token for username:', error);
+      return 'Unknown User';
+    }
+  }
+
+  getCurrentUserDivision(): string {
+    const token = this.authService.getToken();
+    if (!token) return '';
+    
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      
+      const decoded = JSON.parse(jsonPayload);
+      return decoded.divisionName || decoded.division || '';
+    } catch (error) {
+      console.error('Error decoding token for division:', error);
+      return '';
+    }
   }
 
   get isDivisionUser(): boolean {
@@ -165,6 +207,28 @@ export class DashboardComponent {
 
   showHome() {
     this.currentView = 'home';
+  }
+
+  showCreateNpa() {
+    this.currentView = 'createNpa';
+  }
+
+  showNpaList() {
+    this.currentView = 'npaList';
+  }
+
+  showNpaDetail() {
+    this.currentView = 'npaDetail';
+  }
+
+  showQueue() {
+    this.currentView = 'queue';
+  }
+
+  logout() {
+    this.authService.clearToken();
+    // Redirect to login page or reload the app
+    window.location.href = '/login';
   }
 
   closeSuccessModal() {
