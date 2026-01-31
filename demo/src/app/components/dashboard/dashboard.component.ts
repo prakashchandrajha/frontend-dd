@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthServiceService } from '../../services/auth-service.service';
 
@@ -32,20 +32,10 @@ export class DashboardComponent {
     { value: 'LEGAL', label: 'Legal' }
   ];
 
-  constructor(private authService: AuthServiceService, private cdr: ChangeDetectorRef) {
-    // Test modal visibility - remove this after confirming it works
-    // setTimeout(() => {
-    //   this.showSuccessModal = true;
-    //   this.successResponse = {
-    //     userId: 12,
-    //     username: "testuser",
-    //     userType: "DIVISION",
-    //     divisionName: "Test Division",
-    //     isAdmin: false,
-    //     message: "Test message"
-    //   };
-    //   console.log('Test modal shown');
-    // }, 2000);
+  constructor(private authService: AuthServiceService) {
+    // Check user role on component initialization
+    console.log('User role:', this.authService.getUserRole());
+    console.log('Is admin:', this.authService.isAdmin());
   }
 
   get isDivisionUser(): boolean {
@@ -62,7 +52,16 @@ export class DashboardComponent {
     this.errorMessage = '';
     this.showSuccessModal = false;
     
-    // Use hardcoded admin credentials to get token
+    // Check if we already have a valid token
+    const existingToken = this.authService.getToken();
+    
+    if (existingToken) {
+      console.log('Using existing token for user creation');
+      this.createUserWithToken(existingToken);
+      return;
+    }
+    
+    // If no token, use admin credentials to get one
     const adminUsername = 'admin';
     const adminPassword = 'admin123';
     
@@ -81,7 +80,7 @@ export class DashboardComponent {
         
         console.log('Token obtained:', token.substring(0, 20) + '...');
         // Store token for future use
-        localStorage.setItem('authToken', token);
+        this.authService.setToken(token);
         
         // Now create the user with the obtained token
         console.log('Calling createUserWithToken...');
@@ -122,17 +121,6 @@ export class DashboardComponent {
         this.isLoading = false;
         this.resetForm();
         console.log('Modal should be showing now:', this.showSuccessModal);
-        // Force change detection
-        this.cdr.detectChanges();
-        
-        // Fallback timeout to ensure modal appears
-        setTimeout(() => {
-          if (!this.showSuccessModal) {
-            console.log('Fallback: Forcing modal to show');
-            this.showSuccessModal = true;
-            this.cdr.detectChanges();
-          }
-        }, 100);
       },
       error: (error) => {
         console.error('Error creating user:', error);
@@ -165,20 +153,5 @@ export class DashboardComponent {
     this.showSuccessModal = false;
     this.successResponse = null;
     this.successMessage = '';
-  }
-
-  testModal() {
-    console.log('Test modal button clicked');
-    this.successResponse = {
-      userId: 999,
-      username: "testuser123",
-      userType: "DIVISION",
-      divisionName: "Test Division",
-      isAdmin: false,
-      message: "This is a test response"
-    };
-    this.showSuccessModal = true;
-    this.cdr.detectChanges();
-    console.log('Test modal should be visible now');
   }
 }
