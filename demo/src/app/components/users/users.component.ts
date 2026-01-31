@@ -1,16 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthServiceService } from '../../services/auth-service.service';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-users',
   imports: [FormsModule],
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  templateUrl: './users.component.html',
+  styleUrl: './users.component.css'
 })
-export class DashboardComponent {
-  showUserForm = false;
-  
+export class UsersComponent implements OnInit {
   user = {
     username: '',
     password: '',
@@ -31,6 +29,11 @@ export class DashboardComponent {
   ];
 
   constructor(private authService: AuthServiceService) {}
+
+  ngOnInit() {
+    // Initialize form with empty values
+    this.resetForm();
+  }
 
   get isDivisionUser(): boolean {
     return this.user.userType === 'DIVISION';
@@ -74,6 +77,7 @@ export class DashboardComponent {
   }
 
   private createUserWithToken(token: string) {
+
     // Prepare payload based on user type
     let payload: any = {
       username: this.user.username,
