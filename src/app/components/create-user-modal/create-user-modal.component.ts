@@ -105,18 +105,7 @@ export interface CreateUserRequest {
               <small class="form-text" style="color: #999;" *ngIf="isLoadingDivisions">Loading divisions...</small>
             </div>
 
-            <div class="form-group" *ngIf="formData.divisionId">
-              <label for="divisionNameDisplay">Division Name</label>
-              <input
-                type="text"
-                id="divisionNameDisplay"
-                [(ngModel)]="formData.divisionName"
-                class="form-control"
-                disabled
-                placeholder="Division name (auto-filled)"
-              >
-              <small class="form-text">Auto-filled based on selection</small>
-            </div>
+           
           </div>
 
           <!-- Regional Office Section -->
