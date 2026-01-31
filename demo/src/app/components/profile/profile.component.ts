@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthServiceService } from '../../services/auth-service.service';
 
@@ -13,11 +13,14 @@ export class ProfileComponent implements OnInit {
   loadingUsers = false;
   errorMessage: string = '';
   
-  constructor(private authService: AuthServiceService) {}
+  constructor(private authService: AuthServiceService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     console.log('Profile component initialized');
-    this.loadUsers();
+    // Small delay to ensure component is fully rendered
+    setTimeout(() => {
+      this.loadUsers();
+    }, 100);
   }
 
   loadUsers() {
@@ -42,9 +45,16 @@ export class ProfileComponent implements OnInit {
         console.log('Users data fetched successfully:', response);
         console.log('Response type:', typeof response);
         console.log('Response length:', Array.isArray(response) ? response.length : 'Not an array');
-        this.usersData = response;
+        
+        // Force UI update
+        this.usersData = [...response]; // Create new array reference
         this.loadingUsers = false;
+        this.errorMessage = '';
+        this.cdr.detectChanges(); // Force change detection
+        
         console.log('Users data updated, new length:', this.usersData.length);
+        console.log('Loading state:', this.loadingUsers);
+        console.log('Error message:', this.errorMessage);
       },
       error: (error) => {
         console.error('Error fetching users data:', error);
