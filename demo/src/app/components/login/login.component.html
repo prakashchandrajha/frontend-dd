@@ -27,9 +27,11 @@
       >
     </div>
 
-    <div *ngIf="errorMessage" class="error-message">
-      {{ errorMessage }}
-    </div>
+    @if (errorMessage) {
+      <div class="error-message">
+        {{ errorMessage }}
+      </div>
+    }
 
     <button type="submit" class="login-button" [disabled]="!loginForm.valid">
       Login
