@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthServiceService } from '../../services/auth-service.service';
 
@@ -22,6 +22,8 @@ export class DashboardComponent {
   successMessage: string = '';
   errorMessage: string = '';
   isLoading: boolean = false;
+  showSuccessModal: boolean = false;
+  successResponse: any = null;
 
   userTypes = [
     { value: 'DIVISION', label: 'Division' },
@@ -30,7 +32,21 @@ export class DashboardComponent {
     { value: 'LEGAL', label: 'Legal' }
   ];
 
-  constructor(private authService: AuthServiceService) {}
+  constructor(private authService: AuthServiceService, private cdr: ChangeDetectorRef) {
+    // Test modal visibility - remove this after confirming it works
+    // setTimeout(() => {
+    //   this.showSuccessModal = true;
+    //   this.successResponse = {
+    //     userId: 12,
+    //     username: "testuser",
+    //     userType: "DIVISION",
+    //     divisionName: "Test Division",
+    //     isAdmin: false,
+    //     message: "Test message"
+    //   };
+    //   console.log('Test modal shown');
+    // }, 2000);
+  }
 
   get isDivisionUser(): boolean {
     return this.user.userType === 'DIVISION';
@@ -41,16 +57,20 @@ export class DashboardComponent {
   }
 
   createUser() {
+    console.log('Create user method called');
     this.isLoading = true;
     this.errorMessage = '';
+    this.showSuccessModal = false;
     
     // Use hardcoded admin credentials to get token
     const adminUsername = 'admin';
     const adminPassword = 'admin123';
     
+    console.log('Attempting admin login...');
     // First login to get the token
     this.authService.login(adminUsername, adminPassword).subscribe({
       next: (loginResponse) => {
+        console.log('Admin login successful:', loginResponse);
         const token = loginResponse.token || loginResponse.accessToken;
         
         if (!token) {
@@ -59,10 +79,12 @@ export class DashboardComponent {
           return;
         }
         
+        console.log('Token obtained:', token.substring(0, 20) + '...');
         // Store token for future use
         localStorage.setItem('authToken', token);
         
         // Now create the user with the obtained token
+        console.log('Calling createUserWithToken...');
         this.createUserWithToken(token);
       },
       error: (error) => {
@@ -95,19 +117,30 @@ export class DashboardComponent {
         console.log('User created successfully:', response);
         this.successMessage = 'User created successfully!';
         this.errorMessage = '';
-        this.resetForm();
+        this.successResponse = response;
+        this.showSuccessModal = true;
         this.isLoading = false;
+        this.resetForm();
+        console.log('Modal should be showing now:', this.showSuccessModal);
+        // Force change detection
+        this.cdr.detectChanges();
         
-        // Clear success message after 3 seconds
+        // Fallback timeout to ensure modal appears
         setTimeout(() => {
-          this.successMessage = '';
-        }, 3000);
+          if (!this.showSuccessModal) {
+            console.log('Fallback: Forcing modal to show');
+            this.showSuccessModal = true;
+            this.cdr.detectChanges();
+          }
+        }, 100);
       },
       error: (error) => {
         console.error('Error creating user:', error);
         this.errorMessage = error.error?.message || 'Failed to create user. Please try again.';
         this.successMessage = '';
         this.isLoading = false;
+        this.showSuccessModal = false;
+        console.log('Error occurred, modal hidden:', this.showSuccessModal);
       }
     });
   }
@@ -126,5 +159,26 @@ export class DashboardComponent {
     // Clear type-specific fields when user type changes
     this.user.divisionName = '';
     this.user.regionalOfficeName = '';
+  }
+
+  closeSuccessModal() {
+    this.showSuccessModal = false;
+    this.successResponse = null;
+    this.successMessage = '';
+  }
+
+  testModal() {
+    console.log('Test modal button clicked');
+    this.successResponse = {
+      userId: 999,
+      username: "testuser123",
+      userType: "DIVISION",
+      divisionName: "Test Division",
+      isAdmin: false,
+      message: "This is a test response"
+    };
+    this.showSuccessModal = true;
+    this.cdr.detectChanges();
+    console.log('Test modal should be visible now');
   }
 }
