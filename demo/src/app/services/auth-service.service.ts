@@ -47,7 +47,7 @@ export class AuthServiceService {
       }).join(''));
       
       const decoded = JSON.parse(jsonPayload);
-      return decoded.userType || decoded.role || null;
+      return decoded.userType || decoded.role || (decoded.isAdmin ? 'ADMIN' : null) || null;
     } catch (error) {
       console.error('Error decoding token:', error);
       return null;

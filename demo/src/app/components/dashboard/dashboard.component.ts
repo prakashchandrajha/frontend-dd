@@ -2,14 +2,16 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthServiceService } from '../../services/auth-service.service';
 import { RouterLink } from '@angular/router';
+import { ProfileComponent } from '../profile/profile.component';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [FormsModule,RouterLink],
+  imports: [FormsModule, RouterLink, ProfileComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
+  currentView: 'home' | 'profile' | 'createUser' = 'home';
   showUserForm = false;
   
   user = {
@@ -148,6 +150,21 @@ export class DashboardComponent {
     // Clear type-specific fields when user type changes
     this.user.divisionName = '';
     this.user.regionalOfficeName = '';
+  }
+
+  toggleUserForm() {
+    this.currentView = this.currentView === 'createUser' ? 'home' : 'createUser';
+    if (this.currentView === 'createUser') {
+      this.resetForm(); // Reset form when opening
+    }
+  }
+
+  showProfile() {
+    this.currentView = 'profile';
+  }
+
+  showHome() {
+    this.currentView = 'home';
   }
 
   closeSuccessModal() {
