@@ -1,14 +1,26 @@
-<div class="p-6">
-  <h2 class="text-2xl font-bold text-gray-900 mb-4">NPA Detail</h2>
-  
-  @if (npaId) {
-    <div class="bg-white rounded-lg shadow p-6">
-      <p class="text-lg"><strong>NPA ID:</strong> {{ npaId }}</p>
-      <p class="text-gray-600 mt-2">NPA details will be loaded here from the API.</p>
+<div class="flex h-screen bg-gray-100">
+  <!-- sidebar -->
+  <app-sidebar (navigate)="onNavigate($event)" (logout)="onLogout()"></app-sidebar>
+
+  <!-- Main content -->
+  <div class="flex flex-col flex-1 overflow-y-auto">
+    <div class="flex items-center justify-between h-16 bg-white border-b border-gray-200">
+      <div class="flex items-center px-4">
+        <h2 class="text-xl font-semibold text-gray-800">NPA Detail</h2>
+      </div>
     </div>
-  } @else {
-    <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded">
-      <p>No NPA ID provided.</p>
+
+    <div class="p-6">
+      @if (npaId) {
+        <div class="bg-white rounded-lg shadow p-6">
+          <p class="text-lg"><strong>NPA ID:</strong> {{ npaId }}</p>
+          <p class="text-gray-600 mt-2">NPA details will be loaded here from the API.</p>
+        </div>
+      } @else {
+        <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded">
+          <p>No NPA ID provided.</p>
+        </div>
+      }
     </div>
-  }
+  </div>
 </div>
