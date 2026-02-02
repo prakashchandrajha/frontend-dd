@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthServiceService } from '../../services/auth-service.service';
-import { RouterLink } from '@angular/router';
 import { ProfileComponent } from '../profile/profile.component';
 import { CreateNpaComponent } from '../create-npa/create-npa.component';
 import { NpaDetailComponent } from '../npa-detail/npa-detail.component';
@@ -10,7 +9,7 @@ import { QueueComponent } from '../queue/queue.component';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [FormsModule, RouterLink, ProfileComponent, CreateNpaComponent, NpaDetailComponent, NpaListComponent, QueueComponent],
+  imports: [FormsModule, ProfileComponent, CreateNpaComponent, NpaDetailComponent, NpaListComponent, QueueComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
