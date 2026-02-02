@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthServiceService } from '../../services/auth-service.service';
+import { SidebarComponent } from '../sidebar/sidebar.component';
 import { ProfileComponent } from '../profile/profile.component';
 import { CreateNpaComponent } from '../create-npa/create-npa.component';
 import { NpaDetailComponent } from '../npa-detail/npa-detail.component';
@@ -9,7 +10,7 @@ import { QueueComponent } from '../queue/queue.component';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [FormsModule, ProfileComponent, CreateNpaComponent, NpaDetailComponent, NpaListComponent, QueueComponent],
+  imports: [FormsModule, SidebarComponent, ProfileComponent, CreateNpaComponent, NpaDetailComponent, NpaListComponent, QueueComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -42,6 +43,18 @@ export class DashboardComponent {
     // Check user role on component initialization
     console.log('User role:', this.authService.getUserRole());
     console.log('Is admin:', this.authService.isAdmin());
+  }
+
+  onNavigate(view: string) {
+    this.currentView = view as typeof this.currentView;
+    if (view === 'createUser') {
+      this.resetForm();
+    }
+  }
+
+  onLogout() {
+    this.authService.clearToken();
+    window.location.href = '/login';
   }
 
   getCurrentUsername(): string {
