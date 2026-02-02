@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 
@@ -13,7 +13,10 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 export class NpaDetailComponent implements OnInit {
   npaId: number | null = null;
   
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
   
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -25,12 +28,28 @@ export class NpaDetailComponent implements OnInit {
   }
   
   onNavigate(view: string) {
-    // Navigate to different views - this would typically use a router
     console.log('Navigate to:', view);
+    switch (view) {
+      case 'home':
+        this.router.navigate(['/dashboard']);
+        break;
+      case 'profile':
+        // Navigate to profile
+        break;
+      case 'createNpa':
+        this.router.navigate(['/dashboard']);
+        break;
+      case 'npaList':
+        this.router.navigate(['/dashboard']);
+        break;
+      case 'queue':
+        this.router.navigate(['/dashboard']);
+        break;
+    }
   }
   
   onLogout() {
-    // Handle logout
-    console.log('Logout clicked');
+    // Clear token and redirect to login
+    this.router.navigate(['/login']);
   }
 }
