@@ -13,6 +13,7 @@ export class LoginComponent {
   username: string = '';
   password: string = '';
   errorMessage: string = '';
+  showPassword: boolean = false;
 
   constructor(
     private authService: AuthServiceService,
@@ -53,6 +54,10 @@ export class LoginComponent {
         this.errorMessage = 'Invalid username or password';
       }
     });
+  }
+
+  togglePassword(): void {
+    this.showPassword = !this.showPassword;
   }
 
   private decodeToken(token: string): any {

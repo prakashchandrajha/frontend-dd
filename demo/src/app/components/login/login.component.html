@@ -1,40 +1,41 @@
-<div class="login-container">
-  <h2>Login</h2>
-  <form (ngSubmit)="login()" #loginForm="ngForm">
-    <div class="form-group">
-      <label for="username">Username</label>
-      <input 
-        type="text" 
-        id="username" 
-        name="username" 
-        [(ngModel)]="username" 
-        required
-        placeholder="Enter username"
-        class="form-control"
-      >
+<div class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-sky-300 to-sky-500">
+    <div class="bg-white rounded-lg shadow-xl p-8 w-full max-w-md">
+        <div class="text-center mb-6">
+            <h2 class="text-2xl font-bold text-gray-800">Login</h2>
+        </div>
+        <form (ngSubmit)="login()" #loginForm="ngForm" class="space-y-4">
+            <div>
+                <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Username</label>
+                <input 
+                    [(ngModel)]="username" 
+                    type="text" 
+                    id="username" 
+                    name="username" 
+                    required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-800 transition duration-200" 
+                    placeholder="Enter username"
+                >
+            </div>
+            <div>
+                <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                <input 
+                    [(ngModel)]="password" 
+                    [type]="showPassword ? 'text' : 'password'" 
+                    id="password" 
+                    name="password" 
+                    required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-800 transition duration-200" 
+                    placeholder="Enter password"
+                >
+            </div>
+            @if (errorMessage) {
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                    {{ errorMessage }}
+                </div>
+            }
+            <button type="submit" [disabled]="!loginForm.valid" class="w-full bg-blue-700 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-800 transition duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed">
+                Login
+            </button>
+        </form>
     </div>
-    
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input 
-        type="password" 
-        id="password" 
-        name="password" 
-        [(ngModel)]="password" 
-        required
-        placeholder="Enter password"
-        class="form-control"
-      >
-    </div>
-
-    @if (errorMessage) {
-      <div class="error-message">
-        {{ errorMessage }}
-      </div>
-    }
-
-    <button type="submit" class="login-button" [disabled]="!loginForm.valid">
-      Login
-    </button>
-  </form>
 </div>
